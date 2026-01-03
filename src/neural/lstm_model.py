@@ -8,6 +8,10 @@ from sklearn.metrics import classification_report, f1_score
 from torch.utils.data import Dataset, DataLoader
 from collections import Counter
 
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from utils import print_confusion_matrix, plot_confusion_matrix
 
 # ==================================================
 # Configuración del modelo
@@ -226,6 +230,28 @@ def run_lstm_model():
     print("\n=== RESULTADOS LSTM ===")
     print(classification_report(y_true, y_pred, target_names=labels))
     print("Macro-F1:", f1_score(y_true, y_pred, average="macro"))
+
+    print_confusion_matrix(
+        y_true,
+        y_pred,
+        labels=labels
+    )
+
+    plot_confusion_matrix(
+        y_true,
+        y_pred,
+        labels=labels,
+        title="Matriz de Confusión - LSTM",
+        normalize=False
+    )
+
+    plot_confusion_matrix(
+        y_true,
+        y_pred,
+        labels=labels,
+        title="Matriz de Confusión - LSTM",
+        normalize=True
+    )
 
 
 # ==================================================

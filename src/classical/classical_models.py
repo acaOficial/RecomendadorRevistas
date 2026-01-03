@@ -6,6 +6,11 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import classification_report, f1_score
 
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from utils import print_confusion_matrix, plot_confusion_matrix
+
 def run_classical_models():
     df = pd.read_csv("Dataset/processed/dataset.csv")
 
@@ -48,6 +53,15 @@ def run_classical_models():
 
         print(classification_report(y_test, y_pred))
         macro_f1 = f1_score(y_test, y_pred, average="macro")
+
+
+        print_confusion_matrix(y_test, y_pred, labels=sorted(y.unique()))
+        plot_confusion_matrix(
+            y_test,
+            y_pred,
+            labels=sorted(y.unique()),
+            title=f"Matriz de Confusión - {name}"
+        )
 
         results.append((name, macro_f1))
 
